@@ -35,7 +35,7 @@ export default function Home() {
   }, [word, currentSteps, totalSteps, isPlaying]);
 
   const handleSkipStep = (duration: number) => {
-    setCurrentSteps(() => currentSteps + duration);
+    setCurrentSteps(() => Math.min(currentSteps + duration, totalSteps));
   };
 
   const resetSteps = () => {
@@ -44,7 +44,7 @@ export default function Home() {
 
   const Play = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError("")
+    setError("");
     const formData = new FormData(event.currentTarget);
     const word: string = formData.get("word") as string;
     const formatedWord = word.toUpperCase();
@@ -60,7 +60,7 @@ export default function Home() {
 
   return (
     <main className="bg-[#EDEDED]">
-     {error && <ErrorWindow error={error} />}
+      {error && <ErrorWindow error={error} />}
       <Navigation play={Play} />
       <div className="w-full flex flex-row">
         <Visualizer
