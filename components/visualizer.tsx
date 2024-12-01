@@ -13,11 +13,12 @@ export function Visualizer({
   const step = steps[currentStep];
 
   return (
-    <div className="w-4/5 flex items-center justify-center gap-7">
+    <div className="w-full h-full flex items-center justify-center gap-7">
       {!error ? (
         step &&
         step.word.map((item, index) => (
           <motion.div
+            
             key={index}
             className={`w-20 h-20 ${
               item.isValid ? "bg-green-500" : "bg-red-500"

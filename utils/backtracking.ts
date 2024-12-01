@@ -65,5 +65,6 @@ export const GenerateSteps = (word: string[]) => {
   };
 
   back(0);
-  return steps;
+  steps.pop();
+  return steps.length > 0 ? steps : [];
 };

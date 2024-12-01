@@ -30,7 +30,7 @@ export function Controls({
         <Play_and_stop />
       </button>
       <button onClick={handleIsplaying}>
-        {isPlaying ? <Play className="w-6 h-6 scale-125" /> : <Pause />}
+        {isPlaying ?  <Pause /> : <Play className="w-6 h-6 scale-125" />}
       </button>
       <button onClick={() => handleSkipStep(1)}>
         <Play_and_stop className="-rotate-180" />
