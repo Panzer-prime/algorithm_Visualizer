@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { Steps } from "@/utils/backtracking";
 
 export function Visualizer({
@@ -17,30 +16,18 @@ export function Visualizer({
       {!error ? (
         step &&
         step.word.map((item, index) => (
-          <motion.div
-            
+          <div
             key={index}
-            className={`w-20 h-20 ${
+            className={`w-20 h-20 relative ${
               item.isValid ? "bg-green-500" : "bg-red-500"
             } rounded-md flex items-center justify-center text-5xl text-white`}
           >
-            {item.letter}
-          </motion.div>
+            {item.letter} <span className="text-sm font-medium absolute -top-5 text-black">{item.index}</span>
+          </div>
         ))
       ) : (
         <p className="text-5xl font-semibold text-red-500">Error :(</p>
       )}
     </div>
   );
-}
-
-{
-  /* <motion.div
-            key={index}
-            className={`w-20 h-20 ${
-              letter.isValid ? "bg-green-500" : "bg-red-500"
-            } rounded-md flex items-center justify-center text-5xl text-white`}
-          >
-            {letter.letter}
-          </motion.div> */
 }

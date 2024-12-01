@@ -11,7 +11,7 @@ export type Steps = {
 
 export const GenerateSteps = (word: string[]) => {
   const steps: Steps[] = [];
-  const stack: number[] = Array(word.length).fill(-1);
+  const stack: number[] = Array(word.length).fill(0);
   const used: boolean[] = Array(word.length).fill(false);
 
   const back = (depth: number) => {
@@ -20,7 +20,7 @@ export const GenerateSteps = (word: string[]) => {
         word: stack.map((idx) => ({
           letter: word[idx],
           isValid: true,
-          index: idx,
+          index: idx + 1,
         })),
         action: "completed",
         stack: [...stack],
@@ -39,7 +39,7 @@ export const GenerateSteps = (word: string[]) => {
         word: stack.slice(0, depth + 1).map((idx) => ({
           letter: word[idx],
           isValid: false,
-          index: idx,
+          index: idx + 1,
         })),
         action: "explore",
         stack: [...stack],
@@ -49,13 +49,13 @@ export const GenerateSteps = (word: string[]) => {
       back(depth + 1);
 
       used[i] = false;
-      stack[depth] = -1;
+      stack[depth] = 0;
 
       steps.push({
         word: stack.slice(0, depth).map((idx) => ({
           letter: word[idx],
           isValid: false,
-          index: idx,
+          index: idx + 1,
         })),
         action: "backtracking",
         stack: [...stack],

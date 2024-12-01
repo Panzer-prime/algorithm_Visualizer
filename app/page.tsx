@@ -23,7 +23,7 @@ export default function Home() {
   const maxDelay = 1000;
 
   const calculatedDelay =
-    maxDelay - ((speed - 1) * (maxDelay - minDelay)) / (10 - 1);
+    maxDelay - ((speed - 1) * (maxDelay - minDelay)) / (9);
   console.log(calculatedDelay);
   useEffect(() => {
     const result = GenerateSteps(word);
@@ -43,7 +43,7 @@ export default function Home() {
   }, [word, currentSteps, totalSteps, isPlaying, calculatedDelay]);
 
   const handleSkipStep = (duration: number) => {
-    setCurrentSteps(() => Math.min(currentSteps + duration, totalSteps));
+    setCurrentSteps(() => Math.max(currentSteps + duration, 0));
   };
 
   const resetSteps = () => {
