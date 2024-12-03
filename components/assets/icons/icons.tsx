@@ -88,3 +88,21 @@ export const Play_and_stop = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
+
+export const SpeedIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    fill="none"
+    {...props}
+  >
+    <circle cx={12} cy={14} r={8} stroke="#33363F" strokeWidth={2} />
+    <path
+      stroke="#33363F"
+      strokeLinecap="round"
+      strokeWidth={2}
+      d="M12 14v-3m5.5-3.5L19 6m-8.932-3.63c.114-.106.365-.2.715-.267A6.68 6.68 0 0 1 12 2c.44 0 .868.036 1.217.103.35.067.6.161.715.268"
+    />
+  </svg>
+);

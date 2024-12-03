@@ -1,29 +1,32 @@
 "use client";
 
-import { Navigation } from "@/components/navigation";
 import { Controls } from "@/components/controls";
 import { ProgressBar } from "@/components/progressbar";
 import { Visualizer } from "@/components/visualizer";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { GenerateSteps, Steps } from "@/utils/backtracking";
 import { Input } from "@/components/input";
 import { BacktrackingTree } from "@/components/backtrackingtree";
 import { EditorBack } from "@/components/editor";
+import { SpeedIcon } from "@/components/assets/icons/icons";
+import { useIsClickedOutside } from "@/hooks/clickoutSideofDiv";
+import { Wordinput } from "@/components/wordinput";
 
 export default function Home() {
   const [currentSteps, setCurrentSteps] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [word, setWord] = useState<string[]>(["I", "N", "F", "O"]);
-  const [totalSteps, setTotalSteps] = useState<number>(0);
+  const [totalSteps, setTotalSteps] = useState<number>(10);
   const [steps, setSteps] = useState<Steps[]>();
   const [error, setError] = useState<string>("");
   const [speed, setSpeed] = useState<number>(1);
+  const [showSpeed, setShowSpeed] = useState<boolean>(false);
 
+  const speedInput = useRef<HTMLDivElement>(null);
   const minDelay = 100;
   const maxDelay = 1000;
 
-  const calculatedDelay =
-    maxDelay - ((speed - 1) * (maxDelay - minDelay)) / (9);
+  const calculatedDelay = maxDelay - ((speed - 1) * (maxDelay - minDelay)) / 9;
   console.log(calculatedDelay);
   useEffect(() => {
     const result = GenerateSteps(word);
@@ -50,7 +53,7 @@ export default function Home() {
     setCurrentSteps(0);
   };
 
-  const Play = async (event: FormEvent<HTMLFormElement>) => {
+  const Play = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
     const formData = new FormData(event.currentTarget);
@@ -67,40 +70,52 @@ export default function Home() {
     setWord(word.split(""));
   };
 
+  useIsClickedOutside(speedInput, () => setShowSpeed(false));
   return (
-    <main className="bg-[#EDEDED] flex flex-coll">
-      <Navigation play={Play} />
-
-      <div className="h-dvh w-full flex flex-row ">
-        <div className="flex flex-col w-2/3">
-          <div className=" h-3/5 flex items-center justify-center">
-            <Visualizer
-              steps={steps || []}
-              currentStep={currentSteps}
-              error={error}
-            />
-          </div>
-          <BacktrackingTree steps={steps || []} currentStep={currentSteps} />{" "}
-          {/*{ this the log} */}  
+    <main className="bg-[#EDEDED] flex flex-col h-dvh ">
+      <div className="w-full h-full flex flex-row ">
+        <div className="flex flex-col w-full">
+          <Visualizer
+            steps={steps || []}
+            currentStep={currentSteps}
+            error={error}
+          />
+          <BacktrackingTree steps={steps || []} currentStep={currentSteps} />
         </div>
-
-        <div className="w-1/3 pt-9">
-          <EditorBack />
-        </div>
+        <EditorBack />
       </div>
 
-      <div className="w-full absolute bottom-0 flex items-center justify-between  h-20 px-10">
-        <div className="flex flex-row gap-5 items-center">
-          <Controls
-            handleSkipStep={handleSkipStep}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
-            resetSteps={resetSteps}
-          />
-          <ProgressBar currentSteps={currentSteps} totalSteps={totalSteps} />
+      <div className="absolute bottom-0 w-full h-16 flex justify-between items-center px-32  bg-white">
+        <div>
+          <Wordinput Play={Play} />
         </div>
-
-        <Input setValue={setSpeed} value={speed} />
+        <div className="flex flex-row gap-5 items-center justify-center">
+          <div className="flex flex-col gap-4 ">
+            {showSpeed && (
+              <Input
+                ref={speedInput}
+                setValue={setSpeed}
+                value={speed}
+                className="absolute top-0 -translate-y-[100%]"
+              />
+            )}
+            <button onClick={() => setShowSpeed((prev) => !prev)}>
+              <SpeedIcon />
+            </button>
+          </div>
+          <div className="flex flex-row gap-8 items-center justify-center">
+            <Controls
+              handleSkipStep={handleSkipStep}
+              isPlaying={isPlaying}
+              setIsPlaying={setIsPlaying}
+              resetSteps={resetSteps}
+            />
+            <ProgressBar
+              currentSteps={calculatedDelay}
+              totalSteps={totalSteps}
+            />
+          </div>
+        </div>
       </div>
     </main>
   );

@@ -21,7 +21,7 @@ export function BacktrackingTree({ steps, currentStep }: Props) {
 
   return (
     <div
-      className="h-1/3 flex items-center p-4 overflow-auto gap-4 flex-col rounded-md"
+      className="h-1/2 flex items-center p-4 overflow-auto gap-4 flex-col rounded-md "
       ref={windowRef}
     >
       {logs.map((log, index) => {

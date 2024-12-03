@@ -3,7 +3,7 @@ import { Code } from "@/constant";
 
 export const EditorBack = () => {
   return (
-    <div className="h-[92%]">
+    <div className=" w-1/3 p-2">
       <Editor
         height="100%"
         defaultLanguage="cpp"
