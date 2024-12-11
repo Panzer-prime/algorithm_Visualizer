@@ -1,122 +1,192 @@
 "use client";
-
-import { Controls } from "@/components/controls";
-import { ProgressBar } from "@/components/progressbar";
-import { Visualizer } from "@/components/visualizer";
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { GenerateSteps, Steps } from "@/utils/backtracking";
-import { Input } from "@/components/input";
-import { BacktrackingTree } from "@/components/backtrackingtree";
-import { EditorBack } from "@/components/editor";
-import { SpeedIcon } from "@/components/assets/icons/icons";
-import { useIsClickedOutside } from "@/hooks/clickoutSideofDiv";
-import { Wordinput } from "@/components/wordinput";
+import { FlashText } from "@/components/flashText";
+import Hero from "@/components/sections/heroSection";
+import Image from "next/image";
+import photo from "@/public/Group 8618.png";
+import Card, { CardProps } from "@/components/card";
+import Explore from "@/public/explore.jpg";
+import Flexibility from "@/public/flexibility.png";
+import Decision from "@/public/decision.png";
+import Adaptability from "@/public/adabtibilitate.png";
+import Complezity from "@/public/complexity.png";
+import Wasting from "@/public/wasting.png";
+import BadLogic from "@/public/badlogic.png";
+import Footer from "@/components/footer";
 
 export default function Home() {
-  const [currentSteps, setCurrentSteps] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [word, setWord] = useState<string[]>(["I", "N", "F", "O"]);
-  const [totalSteps, setTotalSteps] = useState<number>(10);
-  const [steps, setSteps] = useState<Steps[]>();
-  const [error, setError] = useState<string>("");
-  const [speed, setSpeed] = useState<number>(1);
-  const [showSpeed, setShowSpeed] = useState<boolean>(false);
+  const advantages: CardProps[] = [
+    {
+      title: "Flexibilitate ridicată",
+      imageURL: Flexibility,
+      description:
+        "Poate fi aplicat la o gamă largă de probleme, cum ar fi combinatorică, jocuri, optimizare, și rezolvarea puzzle-urilor.",
+    },
+    {
+      title: "Explorare",
+      imageURL: Explore,
+      description:
+        "Garantează găsirea unei soluții (dacă aceasta există) prin testarea tuturor posibilităților.",
+    },
+    {
+      title: "Util pentru probleme decizionale",
+      imageURL: Decision,
+      description:
+        "Este potrivit pentru probleme care necesită un răspuns „da” sau „nu” (ex.: se poate sau nu se poate rezolva problema?).",
+    },
+    {
+      title: "Optimizare prin euristici",
+      description:
+        "Poate fi îmbunătățit folosind euristici sau tehnici precum „pruning” pentru a reduce numărul de căi explorate.",
+      imageURL: Adaptability,
+    },
+  ];
 
-  const speedInput = useRef<HTMLDivElement>(null);
-  const minDelay = 100;
-  const maxDelay = 1000;
+  const disadvantages: CardProps[] = [
+    {
+      title: "Complexitate ridicată",
+      imageURL: Complezity,
+      description:
+        "În cel mai rău caz, complexitatea este exponențială (O(b^d), unde b este ramificația și d adâncimea), ceea ce îl face ineficient pentru probleme mari.",
+    },
+    {
+      title: "Consumul de resurse",
+      imageURL: Wasting,
+      description:
+        "Folosește multă memorie și timp datorită apelurilor recursive și stocării stărilor.",
+    },
+    {
+      title: "Dependență de constrângeri",
+      imageURL: BadLogic,
+      description:
+        "Performanța depinde foarte mult de cât de bine sunt definite constrângerile și condițiile de validare.",
+    },
+  ];
 
-  const calculatedDelay = maxDelay - ((speed - 1) * (maxDelay - minDelay)) / 9;
-  console.log(calculatedDelay);
-  useEffect(() => {
-    const result = GenerateSteps(word);
-    console.log(result);
-    setTotalSteps(result.length);
-    setSteps(result);
-
-    if (!isPlaying) return;
-
-    if (currentSteps < totalSteps) {
-      const timeout = setTimeout(() => {
-        setCurrentSteps((prev) => prev + 1);
-      }, calculatedDelay);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [word, currentSteps, totalSteps, isPlaying, calculatedDelay]);
-
-  const handleSkipStep = (duration: number) => {
-    setCurrentSteps(() => Math.max(currentSteps + duration, 0));
-  };
-
-  const resetSteps = () => {
-    setCurrentSteps(0);
-  };
-
-  const Play = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setError("");
-    const formData = new FormData(event.currentTarget);
-    const word: string = formData.get("word") as string;
-    const formatedWord = word.toUpperCase();
-
-    if (formatedWord.length > 5) {
-      setError("Cuvantul nu poate depasi 5 caractere ");
-      setTotalSteps(0);
-      return;
-    }
-    setCurrentSteps(0);
-    console.log(formatedWord);
-    setWord(word.split(""));
-  };
-
-  useIsClickedOutside(speedInput, () => setShowSpeed(false));
   return (
-    <main className="bg-[#EDEDED] flex flex-col h-dvh ">
-      <div className="w-full h-full flex flex-row ">
-        <div className="flex flex-col w-full">
-          <Visualizer
-            steps={steps || []}
-            currentStep={currentSteps}
-            error={error}
-          />
-          <BacktrackingTree steps={steps || []} currentStep={currentSteps} />
+    <main className="">
+      <Hero />
+
+      <div className=" w-full p-20 flex flex-col gap-20">
+        <div className="flex flex-col gap-8 font-semibold text-xl">
+          <FlashText title="Ce este Backtracking?" />
+
+          <div className="w-full h-24 border-2 border-[#05ABE1] flex items-center justify-center rounded text-2xl font-semibold text-[#05ABE1]">
+            <p>
+              Backtracking este o tehnică algoritmică generală care explorează
+              toate combinațiile posibile pentru a rezolva o problemă
+              computațională.
+            </p>
+          </div>
+
+          <p>
+            Backtracking este o metodă algoritmică utilizată pentru a rezolva
+            probleme prin explorarea tuturor soluțiilor posibile într-un mod
+            sistematic. Principiul de bază constă în încercarea de a construi o
+            soluție pas cu pas, revenind (backtracking) la o etapă anterioară
+            atunci când o alegere se dovedește incorectă sau inutilă.
+          </p>
+
+          <p>
+            Este frecvent utilizată în probleme precum generarea combinațiilor,
+            rezolvarea labirinturilor, Sudoku, și alte probleme de tip puzzle,
+            unde se poate naviga un „arbore al deciziilor” pentru a găsi o
+            soluție validă.
+          </p>
         </div>
-        <EditorBack />
+
+        <div className="flex flex-col gap-8 font-semibold text-xl">
+          <FlashText title="Ce este Backtracking?" />
+
+          <p>
+            Backtracking-ul este o metodă pas cu pas de rezolvare a problemelor.
+            Procesul începe prin alegerea unei soluții parțiale și verificarea
+            validității acesteia. Dacă soluția respectivă duce la un impas sau
+            nu este corectă, algoritmul „face un pas înapoi” (backtrack) și
+            încearcă o altă opțiune. Pașii principali ai backtracking-ului:
+          </p>
+
+          <div className="">
+            <p>Pașii principali ai backtracking-ului:</p>
+            <li>Explorare: Alege o cale sau o posibilitate.</li>
+            <li>
+              Testează dacă soluția curentă este validă. Retragere: Dacă soluția
+              nu
+            </li>
+            <li>
+              Verificare: funcționează, revino la pasul anterior și încearcă
+              altă opțiune
+            </li>
+          </div>
+          <div className="w-full flex items-center justify-center">
+            <Image src={photo} alt="backtracking explained" />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-8 font-semibold text-xl">
+          <FlashText title="De ce este important Backtracking-ul?" />
+          <p>
+            Backtracking este o tehnică esențială în informatică datorită
+            versatilității și eficienței sale în rezolvarea problemelor
+            complexe. Aceasta joacă un rol crucial în diverse domenii, stând la
+            baza multor algoritmi și aplicații practice.
+          </p>
+          <p>
+            <strong>Eficiență în Explorarea Soluțiilor</strong>
+            <br />
+            Backtracking permite explorarea sistematică a tuturor
+            posibilităților, fără a le analiza pe toate simultan. Prin
+            optimizări precum <strong>pruning</strong> (taierea soluțiilor
+            invalide), timpul de căutare este redus semnificativ. Este o
+            alternativă mult mai eficientă decât abordările brute force, care
+            necesită mult mai multe resurse.
+          </p>
+          <div className="">
+            <p>
+              <strong>Aplicații practice:</strong>
+            </p>
+            <li>
+              Crearea de boți inteligenți pentru jocuri de masă, precum șahul.
+            </li>
+            <li>
+              Rezolvarea labirinturilor și puzzle-urilor, cum ar fi problema
+              N-Regine.
+            </li>
+            <li> Rutare în rețele.</li>
+
+            <li>Decriptare.</li>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-8 font-semibold text-xl">
+          <FlashText title="Avantajele Backtracking-ul" />
+          <div className="w-full flex flex-row justify-center gap-9">
+            {advantages.map((item, index) => (
+              <Card
+                key={index}
+                title={item.title}
+                description={item.description}
+                imageURL={item.imageURL}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-8 font-semibold text-xl">
+          <FlashText title="Dezantajele Backtracking-ul" />
+          <div className="w-full flex flex-row justify-center gap-9">
+            {disadvantages.map((item, index) => (
+              <Card
+                key={index}
+                title={item.title}
+                description={item.description}
+                imageURL={item.imageURL}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="absolute bottom-0 w-full h-16 flex justify-between items-center px-32  bg-white">
-        <div>
-          <Wordinput Play={Play} />
-        </div>
-        <div className="flex flex-row gap-5 items-center justify-center">
-          <div className="flex flex-col gap-4 ">
-            {showSpeed && (
-              <Input
-                ref={speedInput}
-                setValue={setSpeed}
-                value={speed}
-                className="absolute top-0 -translate-y-[100%]"
-              />
-            )}
-            <button onClick={() => setShowSpeed((prev) => !prev)}>
-              <SpeedIcon />
-            </button>
-          </div>
-          <div className="flex flex-row gap-8 items-center justify-center">
-            <Controls
-              handleSkipStep={handleSkipStep}
-              isPlaying={isPlaying}
-              setIsPlaying={setIsPlaying}
-              resetSteps={resetSteps}
-            />
-            <ProgressBar
-              currentSteps={calculatedDelay}
-              totalSteps={totalSteps}
-            />
-          </div>
-        </div>
-      </div>
+      <Footer />
     </main>
   );
 }

@@ -1,13 +1,12 @@
 import { Editor } from "@monaco-editor/react";
-import { Code } from "@/constant";
 
-export const EditorBack = () => {
+export const EditorBack = ({ code }: { code : string }) => {
   return (
-    <div className=" w-1/3 p-2">
+    <div className=" w-2/3 p-2 h-full">
       <Editor
         height="100%"
         defaultLanguage="cpp"
-        defaultValue={Code.trim()}
+        defaultValue={code}
         className="h-full"
         theme="light"
       />

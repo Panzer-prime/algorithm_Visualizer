@@ -1,4 +1,4 @@
-export const Code = `
+export const Code: string = `
 
 #include <iostream>
 #include <cstring>
@@ -68,3 +68,14 @@ int main() {
 
 
 `;
+
+export const PseudoCod = `
+    procedură backtrack(P, c) este
+    dacă reject(P, c) atunci returnează
+    dacă accept(P, c) atunci afișează(P, c)
+    s ← primul(P, c)
+    cât timp s ≠ NULL fă
+        backtrack(P, s)
+        s ← următorul(P, s)
+
+`

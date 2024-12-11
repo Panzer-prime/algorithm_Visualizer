@@ -12,7 +12,7 @@ export function Visualizer({
   const step = steps[currentStep];
 
   return (
-    <div className="w-full h-full flex items-center justify-center gap-7">
+    <div className="w-full h-3/5 flex items-center justify-center gap-7">
       {!error ? (
         <div className="flex flex-col gap-5">
           <p className="font-semibold text-xl">Visualizer</p>

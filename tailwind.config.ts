@@ -8,10 +8,22 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        "Mainblue": "#219EBC"
+      backgroundImage: {
+        "radial-to-b": "radial-gradient(var(--tw-gradient-stops))",
+      },
+      animation: {
+        wave: "wave 7s ease infinite",
+        swell: "swell 4s ease infinite",
+      },
+      keyframes: {
+        wave: {
+          "0%": { marginLeft: "0" },
+          "100%": { marginLeft: "-1600px" },
+        },
+        swell: {
+          "0%, 100%": { transform: "translate(0, -30px)" },
+          "50%": { transform: "translate(0, 5px)" },
+        },
       },
     },
   },
