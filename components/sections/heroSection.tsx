@@ -18,7 +18,7 @@ export default function Hero() {
         </div>
 
         <div className="flex flex-row gap-4">
-          <AButton text="Let's Start" href="" primary={true} />
+          <AButton text="Let's Start" href="#smt" primary={true} />
           <AButton text="Visualizer" href="/visualizer" primary={false} />
         </div>
       </div>
