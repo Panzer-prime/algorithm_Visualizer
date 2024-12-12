@@ -66,7 +66,7 @@ export default function Home() {
     <main className="">
       <Hero />
 
-      <div className=" w-full p-20 flex flex-col gap-20">
+      <div className=" w-full p-20 flex flex-col gap-20" id="smt">
         <div className="flex flex-col gap-8 font-semibold text-xl">
           <FlashText title="Ce este Backtracking?" />
 
